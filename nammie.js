@@ -5,20 +5,22 @@ function init() {
         var camera;
         var width = 600;
         var height = 480;
+        // nummers van de faces (=triangles) die gebied afbakenen van de iconen
         var facebook = [372,373,374,375,376,377,310,311,312,313,436,437,438,439];
         var instagram = [600,601,602,603,605,666,667,668,669,730,731];
         var contact = [966,967,969,1031,1030,1033,1092,1094,1097];
         var calendar = [742,679,678,681,680,743,745,744,806,808,809,811,870,872,934,873,875];
         var scene = new THREE.Scene();
         var clock = new THREE.Clock();
+        // Onderstaande is nodig om de muispositie in de WebGL container te weten te komen
+        // zie onder: mouse.x = ((event.clientX - offset_x_left) / width) * 2 - 1;
+        // MAPPING: Y = (X-A)/(B-A) * (D-C) + C
         var rect = document.getElementById("WebGL-output").getBoundingClientRect();
-        width = rect.width;
-        height = 480;
-        var offset_x_left = rect.left;
+        width = rect.width; // +/- 600 dus
+        var offset_x_left = rect.left; 
         var offset_x_right = rect.right;
         var offset_y_top = rect.top;
-        //var offset_y_left = rect.right;
-        //console.log(document.getElementById("WebGL-output").getBoundingClientRect());
+        
         // create a camera, which defines where we're looking at.
         camera = new THREE.PerspectiveCamera(50, width/height, 1, 1000);
         // position and point the camera to the center of the scene
@@ -31,15 +33,13 @@ function init() {
         var webGLRenderer = new THREE.WebGLRenderer();
         var raycaster = new THREE.Raycaster();
         webGLRenderer.setClearColor(new THREE.Color(0xFAFAFA, 1.0)); //=achtergrondkleur
-        
-	    webGLRenderer.setSize(width,height);
+        webGLRenderer.setSize(width,height);
 
         //webGLRenderer.shadowMapEnabled = true;
         sphereGeometry = new THREE.SphereGeometry(11, 32, 32);
         sphere = createMesh(sphereGeometry, "2048x1024.png");
         scene.add(sphere);
 
-        
         spotLight = new THREE.SpotLight(0xFFFFFF, 0.5);
         spotLight.position.set(20, 80, 30);
         spotLight.castShadow = true;
